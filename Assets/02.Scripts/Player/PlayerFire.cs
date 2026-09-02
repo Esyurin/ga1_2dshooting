@@ -3,9 +3,13 @@
 public class PlayerFire : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public GameObject SubBulletPrefab;
+    
     public Transform LeftFirePoint;
     public Transform RightFirePoint;
-
+    public Transform LeftSubFirePoint;
+    public Transform RightSubFirePoint;
+    
     private float _timer = 0f;
     public float Cooltime = 0.3f;
 
@@ -29,8 +33,10 @@ public class PlayerFire : MonoBehaviour
     
     private void Fire()
     {
-        GameObject leftBullet = Instantiate(BulletPrefab, LeftFirePoint.position, LeftFirePoint.rotation);
-        GameObject rightBullet = Instantiate(BulletPrefab, RightFirePoint.position, RightFirePoint.rotation);
+        Instantiate(BulletPrefab, LeftFirePoint.position, LeftFirePoint.rotation);
+        Instantiate(BulletPrefab, RightFirePoint.position, RightFirePoint.rotation);
+        Instantiate(SubBulletPrefab, LeftSubFirePoint.position, LeftSubFirePoint.rotation);
+        Instantiate(SubBulletPrefab, RightSubFirePoint.position, RightSubFirePoint.rotation);
     }
 
     private void ToggleAuto()
