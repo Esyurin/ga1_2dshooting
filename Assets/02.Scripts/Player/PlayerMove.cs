@@ -35,14 +35,23 @@ public class PlayerMove : MonoBehaviour
     
     private void Update()
     {
-        // TODO 특정 영역 내부에서만 이동 가능하도록 구현
+        // TODO: 특정 영역 내부에서만 이동 가능하되 좌우 이동 범위의 끝에 도달하면 반대 방향에서 나타나도록 구현
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector2 direction = new(h, v);
         direction.Normalize();
 
-        float newX = Mathf.Clamp(transform.position.x + direction.x * (Speed * Time.deltaTime),
-            LeftMovementLimit, RightMovementLimit);
+        float newX = transform.position.x + direction.x * (Speed * Time.deltaTime);
+        if (newX < LeftMovementLimit)
+        {
+            newX = RightMovementLimit;
+        }
+
+        if (newX > RightMovementLimit)
+        {
+            newX = LeftMovementLimit;
+        }
+        
         float newY = Mathf.Clamp(transform.position.y + direction.y * (Speed * Time.deltaTime), 
             DownMovementLimit, UpMovementLimit);
         transform.position = new Vector3(newX, newY, 0);
