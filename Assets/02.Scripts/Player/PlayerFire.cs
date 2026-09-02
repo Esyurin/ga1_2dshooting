@@ -3,7 +3,8 @@
 public class PlayerFire : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public Transform FirePoint;
+    public Transform LeftFirePoint;
+    public Transform RightFirePoint;
     
     private void Update()
     {
@@ -15,7 +16,7 @@ public class PlayerFire : MonoBehaviour
     
     private void Fire()
     {
-        GameObject bullet = Instantiate(BulletPrefab);
-        bullet.transform.position = FirePoint.position;
+        GameObject leftBullet = Instantiate(BulletPrefab, LeftFirePoint.position, LeftFirePoint.rotation);
+        GameObject rightBullet = Instantiate(BulletPrefab, RightFirePoint.position, RightFirePoint.rotation);
     }
 }
