@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     {
         Move();        
 
-        if (transform.position.y < _bulletYPositionMax)
+        if (transform.position.y > _bulletYPositionMax)
         {
             Destroy(gameObject);
         }
