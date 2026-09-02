@@ -5,11 +5,15 @@ public class PlayerMove : MonoBehaviour
     // 목적: 키보드 입력에 따라서 플레이어 이동 처리를 하고 싶다.
 
     // 필요 필드:
-    public float Speed;
-    public float UpMovementLimit;
-    public float DownMovementLimit;
-    public float LeftMovementLimit;
-    public float RightMovementLimit;
+    public float Speed = 3f;
+    public float SpeedDelta = 1f;
+    public float SpeedMin = 0.1f;
+    public float SpeedMax = 10f;
+    
+    public float UpMovementLimit = -1f;
+    public float DownMovementLimit = -4.5f;
+    public float LeftMovementLimit = -2.4f;
+    public float RightMovementLimit = 2.4f;
     
     // 매 프레임마다 실행된다.
     // 초당 프레임 실행 횟수는: 별다른 설정이 없을 경우 가능한 많이
@@ -35,7 +39,7 @@ public class PlayerMove : MonoBehaviour
     
     private void Update()
     {
-        // TODO: 특정 영역 내부에서만 이동 가능하되 좌우 이동 범위의 끝에 도달하면 반대 방향에서 나타나도록 구현
+        // TODO: E를 누르면 속력이 상승하고 Q를 누르면 속력이 감소하도록 구현
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector2 direction = new(h, v);
@@ -55,5 +59,15 @@ public class PlayerMove : MonoBehaviour
         float newY = Mathf.Clamp(transform.position.y + direction.y * (Speed * Time.deltaTime), 
             DownMovementLimit, UpMovementLimit);
         transform.position = new Vector3(newX, newY, 0);
+
+        if (Input.GetKey(KeyCode.E))
+        {
+            Speed = Mathf.Clamp(Speed + SpeedDelta * Time.deltaTime, SpeedMin, SpeedMax);
+        }
+        
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Speed = Mathf.Clamp(Speed - SpeedDelta * Time.deltaTime, SpeedMin, SpeedMax);
+        }
     }
 }

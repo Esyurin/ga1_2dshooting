@@ -371,7 +371,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   Speed: 3
-  UpMovementLimit: 0
+  SpeedDelta: 1
+  SpeedMin: 0.1
+  SpeedMax: 10
+  UpMovementLimit: -1
   DownMovementLimit: -4.5
   LeftMovementLimit: -2.4
   RightMovementLimit: 2.4
