@@ -8,14 +8,22 @@ public class PlayerFire : MonoBehaviour
 
     private float _timer = 0f;
     public float Cooltime = 0.3f;
+
+    private bool isAuto = false;
     
     private void Update()
     {
         _timer += Time.deltaTime;
-        if (_timer >= Cooltime && Input.GetKeyDown(KeyCode.Space))
+        
+        if (_timer >= Cooltime && (isAuto || Input.GetKeyDown(KeyCode.Space)))
         {
             _timer = 0f;
             Fire();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ToggleAuto();
         }
     }
     
@@ -23,5 +31,10 @@ public class PlayerFire : MonoBehaviour
     {
         GameObject leftBullet = Instantiate(BulletPrefab, LeftFirePoint.position, LeftFirePoint.rotation);
         GameObject rightBullet = Instantiate(BulletPrefab, RightFirePoint.position, RightFirePoint.rotation);
+    }
+
+    private void ToggleAuto()
+    {
+        isAuto = !isAuto;
     }
 }
