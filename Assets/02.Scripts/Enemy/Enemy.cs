@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     protected Transform Player;
     protected Vector3 MoveDirection = Vector3.down;
 
+    private const float ForwardAngleOffset = 90f;
+
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -30,6 +32,8 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
+        float forwardAngle = Mathf.Atan2(MoveDirection.y, MoveDirection.x) * Mathf.Rad2Deg + 90f;
+        transform.rotation = Quaternion.Euler(0f, 0f, forwardAngle);
         transform.Translate(_speed * Time.deltaTime * MoveDirection);
     }
 
