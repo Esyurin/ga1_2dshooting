@@ -12,8 +12,7 @@ public class AimedEnemy : Enemy
         _moveDirection = _player.position - transform.position;
         _moveDirection.Normalize();
 
-        float forwardAngle = Mathf.Atan2(_moveDirection.y, _moveDirection.x) * Mathf.Rad2Deg - 90f;
-        transform.rotation = Quaternion.Euler(0f, 0f, forwardAngle);
+        Rotate(_moveDirection);
     }
 
     protected override void Move()
