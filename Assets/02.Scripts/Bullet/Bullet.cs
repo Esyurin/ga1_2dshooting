@@ -19,4 +19,14 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(_bulletSpeed * Time.deltaTime * Vector3.up);
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Destroy(gameObject);
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
 }
