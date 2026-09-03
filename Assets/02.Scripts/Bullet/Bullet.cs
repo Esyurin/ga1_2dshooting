@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private float _bulletAttackPower = 1f;
     [SerializeField] private float _bulletSpeed = 5f;
     [SerializeField] private float _bulletYPositionMax = 6f;
 
@@ -26,7 +27,8 @@ public class Bullet : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject);
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            enemy.DecreaseHealth(_bulletAttackPower);
         }
     }
 }
