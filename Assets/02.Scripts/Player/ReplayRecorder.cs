@@ -7,7 +7,7 @@ public class ReplayRecorder : MonoBehaviour
 {
     private List<MoveCommand> _moveCommands = new();
     private bool isReplaying = false;
-    
+
     public bool IsReplaying => isReplaying;
 
     private void Update()
@@ -27,9 +27,10 @@ public class ReplayRecorder : MonoBehaviour
     public IEnumerator ReplayMovement()
     {
         foreach (MoveCommand command in _moveCommands)
-        { 
+        {
             yield return StartCoroutine(command.Execute());
         }
+
         isReplaying = false;
     }
 }

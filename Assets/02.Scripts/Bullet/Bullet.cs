@@ -4,10 +4,10 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _bulletSpeed = 5f;
     [SerializeField] private float _bulletYPositionMax = 6f;
-    
+
     private void Update()
     {
-        Move();        
+        Move();
 
         if (transform.position.y > _bulletYPositionMax)
         {

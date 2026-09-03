@@ -20,16 +20,16 @@ public class MoveCommand
     {
         _player.transform.position = _startPosition;
         float elapsedTime = 0f;
-        
+
         while (elapsedTime <= _moveTime)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / _moveTime);
             _player.transform.position = Vector3.Lerp(_startPosition, _endPosition, t);
-            
+
             yield return null;
         }
-        
+
         _player.transform.position = _endPosition;
     }
 }

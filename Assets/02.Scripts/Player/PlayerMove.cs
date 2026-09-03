@@ -7,19 +7,19 @@ public class PlayerMove : MonoBehaviour
 
     // 필요 필드:
     [SerializeField] private ReplayRecorder _replayRecorder;
-    
+
     public float Speed = 3f;
     public float SpeedDelta = 1f;
     public float SpeedMin = 0.1f;
     public float SpeedMax = 10f;
-    
+
     public float UpMovementLimit = -1f;
     public float DownMovementLimit = -4.5f;
     public float LeftMovementLimit = -2.4f;
     public float RightMovementLimit = 2.4f;
 
     private bool isWarp = false;
-    
+
     private float _cumulativeTime = 0f;
     private const float RecordTimeThreshold = 0.1f;
     private Vector3 _recordStartPosition;
@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
             DecreaseSpeed();
         }
     }
-    
+
     public void Move(float horizontalInput, float verticalInput)
     {
         Vector2 direction = new(horizontalInput, verticalInput);
@@ -70,13 +70,13 @@ public class PlayerMove : MonoBehaviour
         float newPositionY = transform.position.y + direction.y * (Speed * Time.deltaTime);
         newPositionY = Mathf.Clamp(newPositionY, DownMovementLimit, UpMovementLimit);
         transform.position = new Vector3(newPositionX, newPositionY, 0);
-        
+
         if (isWarp)
         {
             _recordStartPosition = transform.position;
             isWarp = false;
         }
-        
+
         if (!_replayRecorder.IsReplaying)
         {
             _cumulativeTime += Time.deltaTime;
