@@ -3,13 +3,18 @@ using UnityEngine.Pool;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _health = 3f;
+    [SerializeField] private float _maxHealth = 3f;
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
+    [SerializeField] private float _spawnProbability;
 
     private const float ForwardAngleOffset = -90f;
+    private float _health;
 
     private IObjectPool<Enemy> _pool;
+    private bool _isReleased;
+
+    public float SpawnProbability => _spawnProbability;
 
     private void Update()
     {
@@ -26,10 +31,13 @@ public abstract class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (_isReleased) return;
+
         _health -= amount;
 
         if (_health <= 0)
         {
+            _isReleased = true;
             Release();
         }
     }
@@ -54,8 +62,15 @@ public abstract class Enemy : MonoBehaviour
         _pool = pool;
     }
 
+    public void OnSpawn()
+    {
+        _isReleased = false;
+        _health = _maxHealth;
+    }
+
     public void Release()
     {
+        _isReleased = true;
         _pool.Release(this);
     }
 }

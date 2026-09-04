@@ -7,15 +7,31 @@ public class EnemySpawner : MonoBehaviour
     [Header("스폰 주기")]
     [SerializeField] private float _spawnInterval = 3f;
 
-    [Header("스폰할 적 프리팹")]
-    [SerializeField] private Enemy _enemyPrefab;
+    [Header("스폰할 적 프리팹 및 비율")]
+    [SerializeField] private List<Enemy> _enemyPrefabs = new();
 
     private float _timer;
-    private ObjectPool<Enemy> _enemyPool;
+    private Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
+
+    private List<Enemy> _shuffledEnemies = new();
+    private int _spawnCount;
 
     private void Awake()
     {
-        _enemyPool = new ObjectPool<Enemy>(Spawn, OnGetEnemy, OnReleaseEnemy, OnDestroyEnemy, true, 10, 20);
+        PrepareShuffledEnemies();
+
+        foreach (Enemy enemy in _enemyPrefabs)
+        {
+            ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(
+                () => SpawnEnemy(enemy),
+                OnGetEnemy,
+                OnReleaseEnemy,
+                OnDestroyEnemy,
+                true,
+                10,
+                20);
+            _enemyPoolMap.Add(enemy, enemyPool);
+        }
     }
 
     private void Update()
@@ -24,16 +40,43 @@ public class EnemySpawner : MonoBehaviour
 
         if (_timer >= _spawnInterval)
         {
+            if (_spawnCount >= _shuffledEnemies.Count)
+            {
+                _spawnCount = 0;
+                PrepareShuffledEnemies();
+            }
+
             _timer = 0f;
             _spawnInterval = Random.Range(1f, 3f);
-            _enemyPool.Get();
+            _enemyPoolMap[_shuffledEnemies[_spawnCount]].Get();
+            _spawnCount++;
         }
     }
 
-    private Enemy Spawn()
+    private void PrepareShuffledEnemies()
     {
-        Enemy enemy = Instantiate(_enemyPrefab, transform.position, transform.rotation);
-        enemy.SetPool(_enemyPool);
+        _shuffledEnemies.Clear();
+
+        foreach (Enemy enemy in _enemyPrefabs)
+        {
+            for (int i = 0; i <= enemy.SpawnProbability * 100; i++)
+            {
+                _shuffledEnemies.Add(enemy);
+            }
+        }
+
+        for (int i = _shuffledEnemies.Count - 1; i >= 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (_shuffledEnemies[i], _shuffledEnemies[j]) = (_shuffledEnemies[j], _shuffledEnemies[i]);
+        }
+    }
+
+    private Enemy SpawnEnemy(Enemy enemyPrefab)
+    {
+        Enemy enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+        enemy.SetPool(_enemyPoolMap[enemyPrefab]);
+        enemy.OnSpawn();
 
         return enemy;
     }
@@ -42,6 +85,7 @@ public class EnemySpawner : MonoBehaviour
     {
         enemy.transform.SetPositionAndRotation(transform.position, transform.rotation);
         enemy.gameObject.SetActive(true);
+        enemy.OnSpawn();
     }
 
     private void OnReleaseEnemy(Enemy enemy)
