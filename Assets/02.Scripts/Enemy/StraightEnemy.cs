@@ -2,7 +2,7 @@
 
 public class StraightEnemy : Enemy
 {
-    private readonly Vector3 _moveDirection = Vector3.down;
+    [SerializeField] private Vector3 _moveDirection = Vector3.down;
 
     private void Start()
     {

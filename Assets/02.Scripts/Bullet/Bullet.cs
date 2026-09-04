@@ -27,7 +27,11 @@ public class Bullet : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (!other.gameObject.TryGetComponent(out Enemy enemy))
+            {
+                throw new System.InvalidOperationException($"{other.name}에 Enemy 컴포넌트가 없습니다");
+            }
+
             enemy.DecreaseHealth(_bulletAttackPower);
         }
     }

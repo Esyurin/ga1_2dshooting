@@ -16,7 +16,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Rotate(Vector3 moveDirection)
     {
-        float forwardAngle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90f;
+        float forwardAngle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg + ForwardAngleOffset;
         transform.rotation = Quaternion.Euler(0f, 0f, forwardAngle);
     }
 
