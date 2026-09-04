@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _attackPower = 10f;
 
     private const float ForwardAngleOffset = -90f;
+
+    private IObjectPool<Enemy> _pool;
 
     private void Update()
     {
@@ -42,7 +45,17 @@ public abstract class Enemy : MonoBehaviour
             }
 
             player.TakeDamage(_attackPower);
-            Destroy(gameObject);
+            Release();
         }
+    }
+
+    public void SetPool(IObjectPool<Enemy> pool)
+    {
+        _pool = pool;
+    }
+
+    public void Release()
+    {
+        _pool.Release(this);
     }
 }

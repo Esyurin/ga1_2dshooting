@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Enemy _enemyPrefab;
 
     private float _timer;
+    private ObjectPool<Enemy> _enemyPool;
+
+    private void Awake()
+    {
+        _enemyPool = new ObjectPool<Enemy>(Spawn, OnGetEnemy, OnReleaseEnemy, OnDestroyEnemy, true, 10, 20);
+    }
 
     private void Update()
     {
@@ -19,12 +26,30 @@ public class EnemySpawner : MonoBehaviour
         {
             _timer = 0f;
             _spawnInterval = Random.Range(1f, 3f);
-            Spawn();
+            _enemyPool.Get();
         }
     }
 
-    private void Spawn()
+    private Enemy Spawn()
     {
-        Instantiate(_enemyPrefab, transform.position, transform.rotation);
+        Enemy enemy = Instantiate(_enemyPrefab, transform.position, transform.rotation);
+        enemy.SetPool(_enemyPool);
+
+        return enemy;
+    }
+
+    private void OnGetEnemy(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseEnemy(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+    }
+
+    private void OnDestroyEnemy(Enemy enemy)
+    {
+        Destroy(enemy.gameObject);
     }
 }
