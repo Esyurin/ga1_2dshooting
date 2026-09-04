@@ -2,11 +2,10 @@
 
 public class StraightEnemy : Enemy
 {
-    private Vector3 _moveDirection;
+    private readonly Vector3 _moveDirection = Vector3.down;
 
     private void Start()
     {
-        _moveDirection = Vector3.down;
         Rotate(_moveDirection);
     }
 
