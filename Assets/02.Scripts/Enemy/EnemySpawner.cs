@@ -14,7 +14,6 @@ public class EnemySpawner : MonoBehaviour
     private float _timer;
     private float _spawnInterval = 3f;
 
-
     private Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
 
     private float _totalSpawnWeight;

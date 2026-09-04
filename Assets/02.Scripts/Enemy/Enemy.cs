@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -8,7 +9,11 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _attackPower = 10f;
     [SerializeField] private float _spawnWeight;
 
+    [SerializeField] private List<Item> _items = new();
+
     private const float ForwardAngleOffset = -90f;
+    private const float ItemDropProbability = 0.3f;
+
     private float _health;
 
     private IObjectPool<Enemy> _pool;
@@ -38,6 +43,7 @@ public abstract class Enemy : MonoBehaviour
         if (_health <= 0)
         {
             _isReleased = true;
+            DropItem();
             Release();
         }
     }
@@ -72,5 +78,14 @@ public abstract class Enemy : MonoBehaviour
     {
         _isReleased = true;
         _pool.Release(this);
+    }
+
+    public void DropItem()
+    {
+        if (Random.value > ItemDropProbability) return;
+
+        int randomItemIndex = Random.Range(0, _items.Count);
+        Item item = _items[randomItemIndex];
+        Instantiate(item, transform.position, transform.rotation);
     }
 }

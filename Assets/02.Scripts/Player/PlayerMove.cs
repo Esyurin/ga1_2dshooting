@@ -38,12 +38,12 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            IncreaseSpeed();
+            SpeedUp(SpeedDelta);
         }
 
         if (Input.GetKey(KeyCode.Q))
         {
-            DecreaseSpeed();
+            DecreaseSpeed(SpeedDelta);
         }
     }
 
@@ -94,13 +94,13 @@ public class PlayerMove : MonoBehaviour
         _recordStartPosition = transform.position;
     }
 
-    public void IncreaseSpeed()
+    public void SpeedUp(float value)
     {
-        Speed = Mathf.Clamp(Speed + SpeedDelta * Time.deltaTime, SpeedMin, SpeedMax);
+        Speed = Mathf.Clamp(Speed + value * Time.deltaTime, SpeedMin, SpeedMax);
     }
 
-    public void DecreaseSpeed()
+    public void DecreaseSpeed(float value)
     {
-        Speed = Mathf.Clamp(Speed - SpeedDelta * Time.deltaTime, SpeedMin, SpeedMax);
+        Speed = Mathf.Clamp(Speed - value * Time.deltaTime, SpeedMin, SpeedMax);
     }
 }

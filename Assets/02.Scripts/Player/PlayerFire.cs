@@ -2,6 +2,8 @@
 
 public class PlayerFire : MonoBehaviour
 {
+    private const float MinCoolTime = 0.1f;
+
     public GameObject BulletPrefab;
     public GameObject SubBulletPrefab;
 
@@ -10,8 +12,12 @@ public class PlayerFire : MonoBehaviour
     public Transform LeftSubFirePoint;
     public Transform RightSubFirePoint;
 
+    [SerializeField] private float _coolTime = 0.3f;
+
     private float _timer = 0f;
-    public float Cooltime = 0.3f;
+
+
+    [SerializeField] private float _attackSpeed = 1f;
 
     private bool isAuto = false;
 
@@ -19,7 +25,7 @@ public class PlayerFire : MonoBehaviour
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= Cooltime && (isAuto || Input.GetKeyDown(KeyCode.Space)))
+        if (_timer >= _coolTime && (isAuto || Input.GetKeyDown(KeyCode.Space)))
         {
             _timer = 0f;
             Fire();
@@ -42,5 +48,10 @@ public class PlayerFire : MonoBehaviour
     private void ToggleAuto()
     {
         isAuto = !isAuto;
+    }
+
+    public void AttackSpeedUp(float value)
+    {
+        _coolTime = Mathf.Max(_coolTime - value, 0.1f);
     }
 }

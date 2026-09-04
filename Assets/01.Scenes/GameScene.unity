@@ -921,6 +921,7 @@ MonoBehaviour:
   LeftSubFirePoint: {fileID: 474562188}
   RightSubFirePoint: {fileID: 485792194}
   Cooltime: 0.3
+  _attackSpeed: 1
 --- !u!114 &1381402018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1024,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _health: 100
+  _playerFire: {fileID: 0}
+  _playerMove: {fileID: 0}
 --- !u!1 &1655899592
 GameObject:
   m_ObjectHideFlags: 0
