@@ -604,11 +604,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1381402016}
   - component: {fileID: 1381402015}
+  - component: {fileID: 1381402020}
+  - component: {fileID: 1381402019}
   - component: {fileID: 1381402014}
   - component: {fileID: 1381402017}
   - component: {fileID: 1381402018}
-  - component: {fileID: 1381402020}
-  - component: {fileID: 1381402019}
+  - component: {fileID: 1381402021}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -803,7 +804,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -823,6 +824,19 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 1
+--- !u!114 &1381402021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381402013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05587f7b7a8e44a9b4b4e8fb2de3417c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  _health: 100
 --- !u!1001 &517919500306596839
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -29,10 +29,11 @@ public class Bullet : MonoBehaviour
         {
             if (!other.gameObject.TryGetComponent(out Enemy enemy))
             {
-                throw new System.InvalidOperationException($"{other.name}에 Enemy 컴포넌트가 없습니다");
+                Debug.LogError("Enemy doesn't have a Enemy Script Component");
+                return;
             }
 
-            enemy.DecreaseHealth(_bulletAttackPower);
+            enemy.TakeDamage(_bulletAttackPower);
         }
     }
 }
