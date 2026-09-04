@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: write
 
 concurrency:
@@ -31,9 +32,31 @@ jobs:
       - name: Create commit diff
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
           COMMIT_SHA: ${{ github.sha }}
         run: |
-          if git rev-parse "${COMMIT_SHA}^" > /dev/null 2>&1; then
+          LAST_REVIEWED_SHA="$(
+            gh api \
+              "/repos/${REPOSITORY}/actions/workflows/gemini-commit-review.yml/runs?branch=${BRANCH}&status=success&per_page=100" \
+              | jq -r \
+                --arg current "${COMMIT_SHA}" \
+                '(.workflow_runs | map(select(.head_sha != $current))[0].head_sha) // empty'
+          )"
+
+          if [[ -n "${LAST_REVIEWED_SHA}" ]] \
+            && git cat-file -e "${LAST_REVIEWED_SHA}^{commit}" 2>/dev/null \
+            && git merge-base --is-ancestor "${LAST_REVIEWED_SHA}" "${COMMIT_SHA}"; then
+            echo "마지막으로 리뷰에 성공한 ${LAST_REVIEWED_SHA}부터 변경사항을 비교합니다."
+            git diff \
+              --no-ext-diff \
+              --unified=80 \
+              "${LAST_REVIEWED_SHA}" \
+              "${COMMIT_SHA}" \
+              -- ':(glob)Assets/02.Scripts/**/*.cs' > commit.diff
+          elif git rev-parse "${COMMIT_SHA}^" > /dev/null 2>&1; then
+            echo "이전 리뷰 성공 기록이 없어 직전 커밋부터 변경사항을 비교합니다."
             git diff \
               --no-ext-diff \
               --unified=80 \
@@ -41,6 +64,7 @@ jobs:
               "${COMMIT_SHA}" \
               -- ':(glob)Assets/02.Scripts/**/*.cs' > commit.diff
           else
+            echo "이전 커밋이 없어 현재 커밋 전체를 리뷰합니다."
             git show \
               --format= \
               --no-ext-diff \
@@ -65,7 +89,8 @@ jobs:
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           prompt: |
-            현재 저장소의 최신 커밋을 코드 리뷰하세요.
+            마지막으로 코드 리뷰에 성공한 커밋부터 현재 커밋까지의
+            누적 변경사항을 코드 리뷰하세요.
 
             반드시 먼저 commit.diff 파일을 읽고,
             Assets/02.Scripts 폴더에 포함된 C# 변경사항을 검토하세요.
