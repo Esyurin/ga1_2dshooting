@@ -30,7 +30,7 @@ public abstract class Enemy : MonoBehaviour
 
         if (_health <= 0)
         {
-            Destroy(gameObject);
+            Release();
         }
     }
 
