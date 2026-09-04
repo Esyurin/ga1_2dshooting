@@ -5,21 +5,22 @@ using UnityEngine.Pool;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("스폰 주기")]
-    [SerializeField] private float _spawnInterval = 3f;
+    [SerializeField] private float _maxSpawnInterval = 3f;
+    [SerializeField] private float _minSpawnInterval = 1f;
 
     [Header("스폰할 적 프리팹 및 비율")]
     [SerializeField] private List<Enemy> _enemyPrefabs = new();
 
     private float _timer;
+    private float _spawnInterval = 3f;
+
+
     private Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
 
-    private List<Enemy> _shuffledEnemies = new();
-    private int _spawnCount;
+    private float _totalSpawnWeight;
 
     private void Awake()
     {
-        PrepareShuffledEnemies();
-
         foreach (Enemy enemy in _enemyPrefabs)
         {
             ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(
@@ -32,6 +33,11 @@ public class EnemySpawner : MonoBehaviour
                 20);
             _enemyPoolMap.Add(enemy, enemyPool);
         }
+
+        foreach (Enemy enemy in _enemyPrefabs)
+        {
+            _totalSpawnWeight += enemy.SpawnWeight;
+        }
     }
 
     private void Update()
@@ -40,43 +46,36 @@ public class EnemySpawner : MonoBehaviour
 
         if (_timer >= _spawnInterval)
         {
-            if (_spawnCount >= _shuffledEnemies.Count)
-            {
-                _spawnCount = 0;
-                PrepareShuffledEnemies();
-            }
-
             _timer = 0f;
-            _spawnInterval = Random.Range(1f, 3f);
-            _enemyPoolMap[_shuffledEnemies[_spawnCount]].Get();
-            _spawnCount++;
+            _spawnInterval = Random.Range(_minSpawnInterval, _maxSpawnInterval);
+            _enemyPoolMap[SelectRandomEnemy()].Get();
         }
     }
 
-    private void PrepareShuffledEnemies()
+    private Enemy SelectRandomEnemy()
     {
-        _shuffledEnemies.Clear();
+        float totalSpawnWeight = _totalSpawnWeight;
+        float randomValue = Random.value * totalSpawnWeight;
 
         foreach (Enemy enemy in _enemyPrefabs)
         {
-            for (int i = 0; i <= enemy.SpawnProbability * 100; i++)
+            randomValue -= enemy.SpawnWeight;
+
+            if (randomValue <= 0f)
             {
-                _shuffledEnemies.Add(enemy);
+                return enemy;
             }
         }
 
-        for (int i = _shuffledEnemies.Count - 1; i >= 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            (_shuffledEnemies[i], _shuffledEnemies[j]) = (_shuffledEnemies[j], _shuffledEnemies[i]);
-        }
+        return _enemyPrefabs[^1];
     }
+
+    // TODO: ScriptableObject를 사용해서 리팩토링
 
     private Enemy SpawnEnemy(Enemy enemyPrefab)
     {
         Enemy enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
         enemy.SetPool(_enemyPoolMap[enemyPrefab]);
-        enemy.OnSpawn();
 
         return enemy;
     }

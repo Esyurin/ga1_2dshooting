@@ -6,7 +6,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _maxHealth = 3f;
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
-    [SerializeField] private float _spawnProbability;
+    [SerializeField] private float _spawnWeight;
 
     private const float ForwardAngleOffset = -90f;
     private float _health;
@@ -14,7 +14,7 @@ public abstract class Enemy : MonoBehaviour
     private IObjectPool<Enemy> _pool;
     private bool _isReleased;
 
-    public float SpawnProbability => _spawnProbability;
+    public float SpawnWeight => _spawnWeight;
 
     private void Update()
     {
