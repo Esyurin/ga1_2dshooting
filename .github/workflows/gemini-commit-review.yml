@@ -84,10 +84,10 @@ jobs:
         env:
           GEMINI_CLI_TRUST_WORKSPACE: 'true'
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: 'gemini-3.1-flash-lite'
           GITHUB_TOKEN: ${{ github.token }}
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          gemini_model: 'gemini-3.1-flash-lite'
           prompt: |
             마지막으로 코드 리뷰에 성공한 커밋부터 현재 커밋까지의
             누적 변경사항을 코드 리뷰하세요.
