@@ -38,7 +38,7 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKey(KeyCode.E))
         {
-            SpeedUp(SpeedDelta);
+            MoveSpeedUp(SpeedDelta);
         }
 
         if (Input.GetKey(KeyCode.Q))
@@ -94,7 +94,7 @@ public class PlayerMove : MonoBehaviour
         _recordStartPosition = transform.position;
     }
 
-    public void SpeedUp(float value)
+    public void MoveSpeedUp(float value)
     {
         Speed = Mathf.Clamp(Speed + value * Time.deltaTime, SpeedMin, SpeedMax);
     }

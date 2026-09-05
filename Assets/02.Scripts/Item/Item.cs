@@ -37,15 +37,9 @@ public abstract class Item : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        if (!other.TryGetComponent(out Player player))
-        {
-            Debug.LogError("Player doesn't have a Player Script Component");
-            return;
-        }
-
-        ApplyEffect(player);
+        ApplyEffect(other);
         Destroy(gameObject);
     }
 
-    protected abstract void ApplyEffect(Player player);
+    protected abstract void ApplyEffect(Collider2D playerCollider);
 }

@@ -17,7 +17,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
 
         if (other.gameObject.CompareTag("Enemy"))
         {
@@ -28,6 +27,7 @@ public class Bullet : MonoBehaviour
             }
 
             enemy.TakeDamage(_bulletAttackPower);
+            Destroy(gameObject);
         }
     }
 }
