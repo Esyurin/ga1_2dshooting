@@ -598,6 +598,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1381402016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1160689341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160689343}
+  - component: {fileID: 1160689342}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1160689342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160689341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4760772ee099f41af9cb55a63de96b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  dontDestroyOnLoad: 0
+  _player: {fileID: 1381402013}
+--- !u!4 &1160689343
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160689341}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1207666105
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +966,7 @@ MonoBehaviour:
   RightFirePoint: {fileID: 810292077}
   LeftSubFirePoint: {fileID: 474562188}
   RightSubFirePoint: {fileID: 485792194}
-  Cooltime: 0.3
+  _coolTime: 0.3
   _attackSpeed: 1
 --- !u!114 &1381402018
 MonoBehaviour:
@@ -1024,8 +1070,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _health: 100
-  _playerFire: {fileID: 0}
-  _playerMove: {fileID: 0}
 --- !u!1 &1655899592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,6 +1594,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 1160689343}
   - {fileID: 1381402016}
   - {fileID: 188616327}
   - {fileID: 517919500306596839}

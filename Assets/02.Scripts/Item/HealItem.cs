@@ -8,7 +8,8 @@ public class HealItem : Item
     {
         if (!playerCollider.TryGetComponent(out Player player))
         {
-            throw new MissingComponentException($"{nameof(Player)} is required on {nameof(Player)}");
+            Debug.LogError($"{nameof(Player)} is required on {nameof(Player)}");
+            return;
         }
 
         player.Heal(_healAmount);

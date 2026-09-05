@@ -10,7 +10,7 @@ public abstract class Item : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = GameManager.Instance.Player.transform;
     }
 
     private void Update()

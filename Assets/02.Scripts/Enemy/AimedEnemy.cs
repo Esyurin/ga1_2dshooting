@@ -8,7 +8,7 @@ public class AimedEnemy : Enemy
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = GameManager.Instance.Player.transform;
         _moveDirection = _player.position - transform.position;
         _moveDirection.Normalize();
 

@@ -6,11 +6,13 @@ public class HomingEnemy : Enemy
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = GameManager.Instance.Player.transform;
     }
 
     protected override void Move()
     {
+        if (_player == null) return;
+
         Vector3 moveDirection = _player.position - transform.position;
         moveDirection.Normalize();
 

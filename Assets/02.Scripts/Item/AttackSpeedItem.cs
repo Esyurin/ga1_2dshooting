@@ -8,7 +8,8 @@ public class AttackSpeedItem : Item
     {
         if (!playerCollider.TryGetComponent(out PlayerFire playerFire))
         {
-            throw new MissingComponentException($"{nameof(PlayerMove)} is required on {nameof(Player)}");
+            Debug.LogError($"{nameof(PlayerMove)} is required on {nameof(Player)}");
+            return;
         }
 
         playerFire.AttackSpeedUp(_attackSpeedBonus);

@@ -8,7 +8,8 @@ public class MoveSpeedItem : Item
     {
         if (!playerCollider.TryGetComponent(out PlayerMove playerMove))
         {
-            throw new MissingComponentException($"{nameof(PlayerMove)} is required on {nameof(Player)}");
+            Debug.LogError($"{nameof(PlayerMove)} is required on {nameof(Player)}");
+            return;
         }
 
         playerMove.MoveSpeedUp(_moveSpeedBonus);
