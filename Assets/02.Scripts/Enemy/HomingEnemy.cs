@@ -11,7 +11,7 @@ public class HomingEnemy : Enemy
 
     protected override void Move()
     {
-        if (_player == null) return;
+        if (!_player) return;
 
         Vector3 moveDirection = _player.position - transform.position;
         moveDirection.Normalize();

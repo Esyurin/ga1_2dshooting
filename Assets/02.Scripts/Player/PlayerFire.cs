@@ -19,13 +19,13 @@ public class PlayerFire : MonoBehaviour
 
     [SerializeField] private float _attackSpeed = 1f;
 
-    private bool isAuto = false;
+    private bool _isAuto = true;
 
     private void Update()
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= _coolTime && (isAuto || Input.GetKeyDown(KeyCode.Space)))
+        if (_timer >= _coolTime && (_isAuto || Input.GetKeyDown(KeyCode.Space)))
         {
             _timer = 0f;
             Fire();
@@ -47,7 +47,7 @@ public class PlayerFire : MonoBehaviour
 
     private void ToggleAuto()
     {
-        isAuto = !isAuto;
+        _isAuto = !_isAuto;
     }
 
     public void AttackSpeedUp(float value)

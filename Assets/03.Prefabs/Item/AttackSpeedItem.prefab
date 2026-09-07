@@ -107,6 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackSpeedItem
   _stationaryDuration: 10
   _speed: 20
+  _curveAmount: 1
+  _curveFadeDistance: 5
+  _followStrength: 3
   _attackSpeedBonus: 0.01
 --- !u!58 &-6699146773716188104
 CircleCollider2D:

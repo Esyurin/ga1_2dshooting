@@ -107,6 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealItem
   _stationaryDuration: 10
   _speed: 20
+  _curveAmount: 1
+  _curveFadeDistance: 5
+  _followStrength: 3
   _healAmount: 1
 --- !u!58 &567268412409518975
 CircleCollider2D:

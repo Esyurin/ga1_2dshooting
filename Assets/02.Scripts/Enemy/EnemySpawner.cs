@@ -73,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
 
     private Enemy SpawnEnemy(Enemy enemyPrefab)
     {
-        Enemy enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+        Enemy enemy = Instantiate(enemyPrefab, transform.position, transform.rotation, transform);
         enemy.SetPool(_enemyPoolMap[enemyPrefab]);
 
         return enemy;
