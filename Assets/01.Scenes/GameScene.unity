@@ -873,6 +873,7 @@ GameObject:
   - component: {fileID: 1381402017}
   - component: {fileID: 1381402018}
   - component: {fileID: 1381402021}
+  - component: {fileID: 1381402023}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -893,6 +894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   _replayRecorder: {fileID: 1381402018}
+  _animator: {fileID: 1381402023}
   Speed: 3
   SpeedDelta: 1
   SpeedMin: 0.1
@@ -1098,6 +1100,28 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &1381402023
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381402013}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 727a9c3a26952034aa972c8379360afe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1655899592
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,16 +3,18 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    // 목적: 키보드 입력에 따라서 플레이어 이동 처리를 하고 싶다.
+    private static readonly int X = Animator.StringToHash("x");
 
-    // 필요 필드:
     [SerializeField] private ReplayRecorder _replayRecorder;
+    [SerializeField] private Animator _animator;
 
+    [Header("Speed")]
     public float Speed = 3f;
     public float SpeedDelta = 1f;
     public float SpeedMin = 0.1f;
     public float SpeedMax = 10f;
 
+    [Header("Movement Limits")]
     public float UpMovementLimit = -1f;
     public float DownMovementLimit = -4.5f;
     public float LeftMovementLimit = -2.4f;
@@ -35,16 +37,6 @@ public class PlayerMove : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         Move(horizontalInput, verticalInput);
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            MoveSpeedUp(SpeedDelta);
-        }
-
-        if (Input.GetKey(KeyCode.Q))
-        {
-            DecreaseSpeed(SpeedDelta);
-        }
     }
 
     public void Move(float horizontalInput, float verticalInput)
@@ -85,6 +77,15 @@ public class PlayerMove : MonoBehaviour
                 CreateCommand();
             }
         }
+
+        int x = horizontalInput switch
+        {
+            > 0f => 1,
+            < 0f => -1,
+            _ => 0
+        };
+
+        _animator.SetInteger(X, x);
     }
 
     public void CreateCommand()
@@ -99,7 +100,7 @@ public class PlayerMove : MonoBehaviour
         Speed = Mathf.Clamp(Speed + value * Time.deltaTime, SpeedMin, SpeedMax);
     }
 
-    public void DecreaseSpeed(float value)
+    public void MoveSpeedDown(float value)
     {
         Speed = Mathf.Clamp(Speed - value * Time.deltaTime, SpeedMin, SpeedMax);
     }
