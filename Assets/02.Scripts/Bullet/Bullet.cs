@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _bulletAttackPower = 1f;
-    [SerializeField] private float _bulletSpeed = 5f;
+    [SerializeField] private float _attackPower = 1f;
+    [SerializeField] private float _moveSpeed = 5f;
+
+    private IObjectPool<Bullet> _pool;
 
     private void Update()
     {
@@ -12,12 +15,11 @@ public class Bullet : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(_bulletSpeed * Time.deltaTime * Vector3.up);
+        transform.Translate(_moveSpeed * Time.deltaTime * Vector3.up);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.gameObject.CompareTag("Enemy"))
         {
             if (!other.gameObject.TryGetComponent(out Enemy enemy))
@@ -26,8 +28,18 @@ public class Bullet : MonoBehaviour
                 return;
             }
 
-            enemy.TakeDamage(_bulletAttackPower);
-            Destroy(gameObject);
+            enemy.TakeDamage(_attackPower);
+            Release();
         }
+    }
+
+    public void SetPool(IObjectPool<Bullet> pool)
+    {
+        _pool = pool;
+    }
+
+    public void Release()
+    {
+        _pool.Release(this);
     }
 }
