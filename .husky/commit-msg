@@ -1,24 +1,46 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
 
-## husky task runner examples -------------------
-## Note : for local installation use 'dotnet' prefix. e.g. 'dotnet husky'
+commit_msg_file="$1"
+commit_msg="$(head -n 1 "$commit_msg_file")"
 
-## run all tasks
-#husky run
+pattern='^(feat|fix|refactor|perf|docs|test|style|build|ci|chore|revert|asset)(\([a-z0-9._/-]+\))?!?: .+'
 
-### run all tasks with group: 'group-name'
-#husky run --group group-name
+case "$commit_msg" in
+    Merge\ *|Revert\ \"*)
+        exit 0
+        ;;
+esac
 
-## run task with name: 'task-name'
-#husky run --name task-name
+if ! printf '%s\n' "$commit_msg" | grep -Eq "$pattern"; then
+    echo ""
+    echo "Invalid commit message:"
+    echo "  $commit_msg"
+    echo ""
+    echo "Commit message must follow:"
+    echo "  type(scope): description"
+    echo ""
+    echo "Allowed types:"
+    echo "  feat      New feature"
+    echo "  fix       Bug fix"
+    echo "  refactor  Code refactoring"
+    echo "  perf      Performance improvement"
+    echo "  docs      Documentation"
+    echo "  test      Tests"
+    echo "  style     Code style / formatting"
+    echo "  build     Build / dependency changes"
+    echo "  ci        CI changes"
+    echo "  chore     Maintenance"
+    echo "  revert    Revert a commit"
+    echo "  asset     Unity assets"
+    echo ""
+    echo "Examples:"
+    echo "  feat(player): add health system"
+    echo "  fix(enemy): prevent duplicate pool release"
+    echo "  refactor(player): extract PlayerStats"
+    echo "  asset(enemy): update homing enemy prefab"
+    echo "  chore(scene): reorganize gameplay scene"
+    echo ""
+    exit 1
+fi
 
-## pass hook arguments to task
-#husky run --args "$1" "$2"
-
-## or put your custom commands -------------------
-#echo 'Husky.Net is awesome!'
-
-grep -qE '^(asset|build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|design)(\(.+\))?!?: .+' "$1" && exit 0
-echo "커밋 메시지는 'type: 설명' 형식이어야 합니다."
-exit 1
+exit 0
