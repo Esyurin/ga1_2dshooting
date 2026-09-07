@@ -17,7 +17,6 @@ public class PlayerFire : MonoBehaviour
     [SerializeField] private Transform _rightSubFirePoint;
 
     [SerializeField] private float _coolTime = 0.3f;
-    [SerializeField] private float _attackSpeed = 1f;
 
     private Bullet[] _bulletPrefabs = { };
     private Dictionary<Bullet, ObjectPool<Bullet>> _bulletPoolMap = new();

@@ -5,27 +5,36 @@ public class PlayerMove : MonoBehaviour
 {
     private static readonly int X = Animator.StringToHash("x");
 
+    [Header("References")]
+    [SerializeField] private BoxCollider2D _moveZone;
     [SerializeField] private ReplayRecorder _replayRecorder;
     [SerializeField] private Animator _animator;
 
     [Header("Speed")]
-    public float Speed = 3f;
-    public float SpeedDelta = 1f;
-    public float SpeedMin = 0.1f;
-    public float SpeedMax = 10f;
+    [SerializeField] private float _speed = 3f;
+    [SerializeField] private float _speedMin = 0.1f;
+    [SerializeField] private float _speedMax = 10f;
 
-    [Header("Movement Limits")]
-    public float UpMovementLimit = -1f;
-    public float DownMovementLimit = -4.5f;
-    public float LeftMovementLimit = -2.4f;
-    public float RightMovementLimit = 2.4f;
+    private float _upMovementLimit;
+    private float _downMovementLimit;
+    private float _leftMovementLimit;
+    private float _rightMovementLimit;
 
-    private bool isWarp = false;
+    private bool _isWarp = false;
 
     private float _cumulativeTime = 0f;
     private const float RecordTimeThreshold = 0.1f;
     private Vector3 _recordStartPosition;
 
+
+    private void Awake()
+    {
+        Bounds bounds = _moveZone.bounds;
+        _upMovementLimit = bounds.max.y;
+        _downMovementLimit = bounds.min.y;
+        _leftMovementLimit = bounds.min.x;
+        _rightMovementLimit = bounds.max.x;
+    }
 
     private void Start()
     {
@@ -37,6 +46,7 @@ public class PlayerMove : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         Move(horizontalInput, verticalInput);
+        UpdateAnimation(horizontalInput);
     }
 
     public void Move(float horizontalInput, float verticalInput)
@@ -44,29 +54,29 @@ public class PlayerMove : MonoBehaviour
         Vector2 direction = new(horizontalInput, verticalInput);
         direction.Normalize();
 
-        float newPositionX = transform.position.x + direction.x * (Speed * Time.deltaTime);
-        if (newPositionX < LeftMovementLimit)
+        float newPositionX = transform.position.x + direction.x * (_speed * Time.deltaTime);
+        if (newPositionX < _leftMovementLimit)
         {
-            newPositionX = RightMovementLimit;
+            newPositionX = _rightMovementLimit;
             CreateCommand();
-            isWarp = true;
+            _isWarp = true;
         }
 
-        if (newPositionX > RightMovementLimit)
+        if (newPositionX > _rightMovementLimit)
         {
-            newPositionX = LeftMovementLimit;
+            newPositionX = _leftMovementLimit;
             CreateCommand();
-            isWarp = true;
+            _isWarp = true;
         }
 
-        float newPositionY = transform.position.y + direction.y * (Speed * Time.deltaTime);
-        newPositionY = Mathf.Clamp(newPositionY, DownMovementLimit, UpMovementLimit);
+        float newPositionY = transform.position.y + direction.y * (_speed * Time.deltaTime);
+        newPositionY = Mathf.Clamp(newPositionY, _downMovementLimit, _upMovementLimit);
         transform.position = new Vector3(newPositionX, newPositionY, 0);
 
-        if (isWarp)
+        if (_isWarp)
         {
             _recordStartPosition = transform.position;
-            isWarp = false;
+            _isWarp = false;
         }
 
         if (!_replayRecorder.IsReplaying)
@@ -77,7 +87,17 @@ public class PlayerMove : MonoBehaviour
                 CreateCommand();
             }
         }
+    }
 
+    private void CreateCommand()
+    {
+        _replayRecorder.AddMoveCommands(gameObject, _recordStartPosition, transform.position, _cumulativeTime);
+        _cumulativeTime = 0f;
+        _recordStartPosition = transform.position;
+    }
+
+    private void UpdateAnimation(float horizontalInput)
+    {
         int x = horizontalInput switch
         {
             > 0f => 1,
@@ -85,23 +105,19 @@ public class PlayerMove : MonoBehaviour
             _ => 0
         };
 
-        _animator.SetInteger(X, x);
-    }
-
-    public void CreateCommand()
-    {
-        _replayRecorder.AddMoveCommands(gameObject, _recordStartPosition, transform.position, _cumulativeTime);
-        _cumulativeTime = 0f;
-        _recordStartPosition = transform.position;
+        if (_animator.GetInteger(X) != x)
+        {
+            _animator.SetInteger(X, x);
+        }
     }
 
     public void MoveSpeedUp(float value)
     {
-        Speed = Mathf.Clamp(Speed + value * Time.deltaTime, SpeedMin, SpeedMax);
+        _speed = Mathf.Clamp(_speed + value * Time.deltaTime, _speedMin, _speedMax);
     }
 
     public void MoveSpeedDown(float value)
     {
-        Speed = Mathf.Clamp(Speed - value * Time.deltaTime, SpeedMin, SpeedMax);
+        _speed = Mathf.Clamp(_speed - value * Time.deltaTime, _speedMin, _speedMax);
     }
 }
