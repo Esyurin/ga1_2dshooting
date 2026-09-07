@@ -53,6 +53,7 @@ public class PlayerFire : MonoBehaviour
     private void OnGetBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(true);
+        bullet.OnSpawn();
     }
 
     private void OnReleaseBullet(Bullet bullet)

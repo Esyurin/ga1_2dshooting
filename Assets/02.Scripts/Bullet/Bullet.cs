@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
 
     private IObjectPool<Bullet> _pool;
+    private bool _isReleased = false;
 
     private void Update()
     {
@@ -38,8 +39,16 @@ public class Bullet : MonoBehaviour
         _pool = pool;
     }
 
+    public void OnSpawn()
+    {
+        _isReleased = false;
+    }
+
     public void Release()
     {
+        if (_isReleased) return;
+
         _pool.Release(this);
+        _isReleased = true;
     }
 }
