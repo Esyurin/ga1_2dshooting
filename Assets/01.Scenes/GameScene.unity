@@ -971,7 +971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbeac33f03f86141a5d4d5f9e4a7d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
-  _moveZone: {fileID: 0}
+  _moveZone: {fileID: 366554547}
   _replayRecorder: {fileID: 1381402018}
   _animator: {fileID: 1381402023}
   _speed: 3
