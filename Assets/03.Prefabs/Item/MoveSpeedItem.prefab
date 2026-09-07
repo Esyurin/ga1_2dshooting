@@ -105,9 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05eaf8dfa5504a06a43112f89d912fbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveSpeedItem
-  _stationaryDuration: 10
+  _stationaryDuration: 5
   _speed: 20
-  _curveAmount: 1
   _curveFadeDistance: 5
   _followStrength: 3
   _moveSpeedBonus: 1

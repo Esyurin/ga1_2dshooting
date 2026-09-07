@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    [SerializeField] private float _stationaryDuration = 10f;
+    [SerializeField] private float _stationaryDuration = 5f;
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _curveFadeDistance = 5f;
     [SerializeField] private float _followStrength = 3f;
