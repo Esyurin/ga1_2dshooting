@@ -4,14 +4,19 @@ using UnityEngine.Pool;
 
 public abstract class Enemy : MonoBehaviour
 {
+    private static readonly int IsHit = Animator.StringToHash("isHit");
+
+    [Header("Stats")]
     [SerializeField] private float _maxHealth = 3f;
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
     [SerializeField] private float _spawnWeight;
 
+    [Header("References")]
     [SerializeField] private List<Item> _items = new();
+    [SerializeField] private Animator _animator;
 
-    private const float ForwardAngleOffset = -90f;
+    private const float ForwardAngleOffset = 90f;
     private const float ItemDropProbability = 0.3f;
 
     private float _health;
@@ -34,20 +39,6 @@ public abstract class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, forwardAngle);
     }
 
-    public void TakeDamage(float amount)
-    {
-        if (_isReleased) return;
-
-        _health -= amount;
-
-        if (_health <= 0)
-        {
-            _isReleased = true;
-            DropItem();
-            Release();
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -59,6 +50,21 @@ public abstract class Enemy : MonoBehaviour
             }
 
             player.TakeDamage(_attackPower);
+            Release();
+        }
+    }
+
+    public void TakeDamage(float amount)
+    {
+        if (_isReleased) return;
+
+        _health -= amount;
+        _animator.SetTrigger(IsHit);
+
+        if (_health <= 0)
+        {
+            _isReleased = true;
+            DropItem();
             Release();
         }
     }
