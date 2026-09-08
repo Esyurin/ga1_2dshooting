@@ -7,8 +7,11 @@ public class PlayerBomb : MonoBehaviour
 
     [SerializeField] private float _coolTime = 10f;
 
-    private float _timer;
+    private float _timer = 10f;
     private bool _bombReady = true;
+
+    public float Timer => _timer;
+    public float CoolTime => _coolTime;
 
     private void Awake()
     {
@@ -27,19 +30,20 @@ public class PlayerBomb : MonoBehaviour
 
     private void CheckCoolTime()
     {
-        if (!_bombReady)
+        if (_bombReady) return;
+
+        _timer += Time.deltaTime;
+
+        if (_timer >= _coolTime)
         {
-            _timer += Time.deltaTime;
-        }
-        else
-        {
-            _timer = 0f;
+            _bombReady = true;
         }
     }
 
     private void DropBomb()
     {
         _bombReady = false;
+        _timer = 0f;
         Instantiate(_bombPrefab, transform.position, Quaternion.identity);
     }
 }

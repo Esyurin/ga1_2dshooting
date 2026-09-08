@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cc2721dc8706a474b97273837abcf0b7
+guid: 9c7df7a295e42674eb093a49346a77db
 labels:
 - Missile
 AssetOrigin:
@@ -7,7 +7,7 @@ AssetOrigin:
   productId: 27662
   packageName: 2D Space Kit
   packageVersion: Initial 2
-  assetPath: Assets/2D Space Kit/Missiles/Missile (5).png
+  assetPath: Assets/2D Space Kit/Missiles/Missile (3).png
   uploadId: 46238
 TextureImporter:
   internalIDToNameTable: []
@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 32
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 16
     mipBias: 0
     wrapU: 1
@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
