@@ -3,6 +3,10 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private GameObject _obtainEffectPrefab;
+
+    [Header("Settings")]
     [SerializeField] private float _stationaryDuration = 5f;
     [SerializeField] private float _curveFadeDistance = 5f;
     [SerializeField] private float _followStrength = 3f;
@@ -71,6 +75,7 @@ public abstract class Item : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         ApplyEffect(other);
+        Instantiate(_obtainEffectPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

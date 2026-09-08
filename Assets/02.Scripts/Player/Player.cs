@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameObject _deathEffectPrefab;
+
     [SerializeField] private float _health = 100f;
 
     public void TakeDamage(float damage)
@@ -11,6 +13,7 @@ public class Player : MonoBehaviour
 
         if (_health <= 0f)
         {
+            Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

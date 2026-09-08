@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05eaf8dfa5504a06a43112f89d912fbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveSpeedItem
+  _obtainEffectPrefab: {fileID: 7059244812680251311, guid: feca28422fc9a5240993eed790df0180, type: 3}
   _stationaryDuration: 5
   _curveFadeDistance: 5
   _followStrength: 3

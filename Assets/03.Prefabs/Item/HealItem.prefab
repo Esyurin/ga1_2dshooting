@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a2c1229c0a49c2b9132e0da18894ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealItem
+  _obtainEffectPrefab: {fileID: 1114292188611296962, guid: 6b390d1f5879f3e47a3dbd64152ab32b, type: 3}
   _stationaryDuration: 5
   _curveFadeDistance: 5
   _followStrength: 3
