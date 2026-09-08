@@ -15,6 +15,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("References")]
     [SerializeField] private List<Item> _items = new();
     [SerializeField] private Animator _animator;
+    [SerializeField] private GameObject _deathEffectPrefab;
 
     private const float ForwardAngleOffset = 90f;
     private const float ItemDropProbability = 0.3f;
@@ -82,6 +83,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void Release()
     {
+        Instantiate(_deathEffectPrefab, transform.position, transform.rotation);
         _isReleased = true;
         _pool.Release(this);
     }

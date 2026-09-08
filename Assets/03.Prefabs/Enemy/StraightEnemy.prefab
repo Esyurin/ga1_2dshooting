@@ -189,6 +189,7 @@ MonoBehaviour:
   - {fileID: 7367720651887891403, guid: d75d66dc183112f499b58c5d0d2bcc44, type: 3}
   - {fileID: 8559790925622245820, guid: 8ab5decbb342abb42a3021d203cfaaff, type: 3}
   _animator: {fileID: 16282430348775106}
+  _deathEffectPrefab: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
   _moveDirection: {x: 0, y: -1, z: 0}
 --- !u!95 &16282430348775106
 Animator:
