@@ -1,7 +1,7 @@
 root = true
 
 # 게임 코드에만 적용한다. Unity가 생성하는 스크립트/외부 코드는 대상이 아니다.
-[Assets/02.Script/**.cs]
+[Assets/02.Scripts/**.cs]
 
 #### 들여쓰기 / 중괄호 ####
 
@@ -39,7 +39,7 @@ dotnet_naming_rule.private_constants_pascal.severity = warning
 # private static readonly → PascalCase
 dotnet_naming_symbols.private_static_readonly.applicable_kinds = field
 dotnet_naming_symbols.private_static_readonly.applicable_accessibilities = private
-dotnet_naming_symbols.private_static_readonly.required_modifiers = static,readonly
+dotnet_naming_symbols.private_static_readonly.required_modifiers = static, readonly
 dotnet_naming_rule.private_static_readonly_pascal.symbols = private_static_readonly
 dotnet_naming_rule.private_static_readonly_pascal.style = pascal_case
 dotnet_naming_rule.private_static_readonly_pascal.severity = warning

@@ -4,7 +4,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
     public static T Instance { get; private set; }
 
-    [SerializeField] private bool dontDestroyOnLoad = false;
+    [SerializeField] private bool _dontDestroyOnLoad = false;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
         Instance = this as T;
 
-        if (dontDestroyOnLoad)
+        if (_dontDestroyOnLoad)
         {
             DontDestroyOnLoad(gameObject);
         }

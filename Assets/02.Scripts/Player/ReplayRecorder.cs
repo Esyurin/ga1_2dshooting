@@ -6,15 +6,15 @@ using UnityEngine;
 public class ReplayRecorder : MonoBehaviour
 {
     private List<MoveCommand> _moveCommands = new();
-    private bool isReplaying = false;
+    private bool _isReplaying = false;
 
-    public bool IsReplaying => isReplaying;
+    public bool IsReplaying => _isReplaying;
 
     private void Update()
     {
-        if (!isReplaying && Input.GetKeyDown(KeyCode.R))
+        if (!_isReplaying && Input.GetKeyDown(KeyCode.R))
         {
-            isReplaying = true;
+            _isReplaying = true;
             StartCoroutine(ReplayMovement());
         }
     }
@@ -31,6 +31,6 @@ public class ReplayRecorder : MonoBehaviour
             yield return StartCoroutine(command.Execute());
         }
 
-        isReplaying = false;
+        _isReplaying = false;
     }
 }
