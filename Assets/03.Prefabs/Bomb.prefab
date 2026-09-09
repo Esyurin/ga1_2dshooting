@@ -107,7 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644bf088271343e79359d675adddf015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
-  _moveSpeed: 10
+  _explosionParticlePrefab: {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
+  _moveSpeed: 0.1
+  _acceleration: 10
 --- !u!61 &6783498917586336579
 BoxCollider2D:
   m_ObjectHideFlags: 0

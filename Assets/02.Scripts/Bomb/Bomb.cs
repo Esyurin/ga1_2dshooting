@@ -4,7 +4,11 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     private static readonly int IsExploded = Animator.StringToHash("IsExploded");
+
+    [SerializeField] private GameObject _explosionParticlePrefab;
+
     [SerializeField] private float _moveSpeed = 1f;
+    [SerializeField] private float _acceleration = 1f;
 
     private Animator _animator;
 
@@ -26,6 +30,7 @@ public class Bomb : MonoBehaviour
         if (_isExploded) return;
 
         transform.Translate(Vector3.up * (Time.deltaTime * _moveSpeed));
+        _moveSpeed += _acceleration * Time.deltaTime;
     }
 
     private void CheckExplosion()
@@ -53,5 +58,6 @@ public class Bomb : MonoBehaviour
         enemy.Release();
         _animator.SetTrigger(IsExploded);
         _isExploded = true;
+        Instantiate(_explosionParticlePrefab, transform.position, Quaternion.identity);
     }
 }
