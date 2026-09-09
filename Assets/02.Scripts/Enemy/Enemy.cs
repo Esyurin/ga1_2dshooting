@@ -23,7 +23,6 @@ public abstract class Enemy : MonoBehaviour
 
     private Animator _animator;
 
-    // TODO: 적이 피격됐을 때 재생되는 소리
     private AudioSource _damagedAudioSource;
 
     private float _health;
