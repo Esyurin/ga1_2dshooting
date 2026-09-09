@@ -6,8 +6,17 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _attackPower = 1f;
     [SerializeField] private float _moveSpeed = 5f;
 
+    private AudioSource _audioSource;
+
     private IObjectPool<Bullet> _pool;
-    private bool _isReleased = false;
+    private bool _isReleased;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.pitch = Random.Range(0.9f, 1.1f);
+        _audioSource.Play();
+    }
 
     private void Update()
     {
