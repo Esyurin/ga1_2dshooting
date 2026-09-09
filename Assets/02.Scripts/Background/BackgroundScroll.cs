@@ -16,6 +16,8 @@ public class BackgroundScroll : MonoBehaviour
     private void Update()
     {
         _offsetY += _scrollSpeed * Time.deltaTime;
+
+        // TODO: MaterialPropertyBlock을 이용한 최적화
         _material.mainTextureOffset = new Vector2(0, _offsetY);
     }
 }

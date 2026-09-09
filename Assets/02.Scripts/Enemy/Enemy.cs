@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -14,11 +16,15 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private List<Item> _items = new();
-    [SerializeField] private Animator _animator;
     [SerializeField] private GameObject _deathEffectPrefab;
 
     private const float ForwardAngleOffset = 90f;
     private const float ItemDropProbability = 0.3f;
+
+    private Animator _animator;
+
+    // TODO: 적이 피격됐을 때 재생되는 소리
+    private AudioSource _damagedAudioSource;
 
     private float _health;
 
@@ -26,6 +32,12 @@ public abstract class Enemy : MonoBehaviour
     private bool _isReleased;
 
     public float SpawnWeight => _spawnWeight;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _damagedAudioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -61,6 +73,7 @@ public abstract class Enemy : MonoBehaviour
 
         _health -= amount;
         _animator.SetTrigger(IsHit);
+        _damagedAudioSource.Play();
 
         if (_health <= 0)
         {
