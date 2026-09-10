@@ -12,6 +12,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
     private int _bestScore;
     private int _currentScore;
+    private int _lastRefreshScore = -1;
 
     private void Update()
     {
@@ -20,6 +21,10 @@ public class ScoreManager : Singleton<ScoreManager>
 
     private void Refresh()
     {
+        if (_lastRefreshScore == _currentScore) return;
+
+        _lastRefreshScore = _currentScore;
+
         _bestScoreTextUI.text = $"Best Score: {_bestScore}";
         _currentScoreTextUI.text = $"Current Score: {_currentScore}";
     }
