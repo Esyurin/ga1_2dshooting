@@ -5,6 +5,26 @@ commit_msg="$(head -n 1 "$commit_msg_file")"
 
 pattern='^(feat|fix|refactor|perf|docs|test|style|build|ci|chore|revert|asset)(\([a-z0-9._/-]+\))?!?: .+'
 
+detail_line_count="$(awk 'NR > 1 && /[^[:space:]]/ && !/^[[:space:]]*#/ { count++ } END { print count + 0 }' "$commit_msg_file")"
+
+# Types in this pattern are exempt from the detail-line requirement only.
+detail_optional_pattern='^(asset)(\([a-z0-9._/-]+\))?!?: .+'
+
+if ! printf '%s\n' "$commit_msg" | grep -Eq "$detail_optional_pattern" && [ "$detail_line_count" -lt 2 ]; then
+    echo ""
+    echo "Commit message must include at least two detail lines below the title."
+    echo "Blank lines and comment lines do not count."
+    echo "The asset type is exempt from this requirement."
+    echo ""
+    echo "Example:"
+    echo "  feat(player): update automatic movement"
+    echo ""
+    echo "  Add distance-based retreat movement."
+    echo "  Clamp the player's maximum Y position."
+    echo ""
+    exit 1
+fi
+
 case "$commit_msg" in
     Merge\ *|Revert\ \"*)
         exit 0
