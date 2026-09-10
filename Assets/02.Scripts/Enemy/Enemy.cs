@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
     [SerializeField] private float _spawnWeight;
+    [SerializeField] private int _score;
 
     [Header("References")]
     [SerializeField] private List<Item> _items = new();
@@ -22,7 +22,6 @@ public abstract class Enemy : MonoBehaviour
     private const float ItemDropProbability = 0.3f;
 
     private Animator _animator;
-
     private AudioSource _damagedAudioSource;
 
     private float _health;
@@ -78,6 +77,10 @@ public abstract class Enemy : MonoBehaviour
         {
             _isReleased = true;
             DropItem();
+
+            ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+            scoreManager.AddScore(_score);
+
             Release();
         }
     }

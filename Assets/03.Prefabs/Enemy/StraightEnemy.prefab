@@ -186,6 +186,7 @@ MonoBehaviour:
   _speed: 1
   _attackPower: 10
   _spawnWeight: 5
+  _score: 10
   _items:
   - {fileID: 5479642142822049742, guid: ac9fe7eac844a304387b1e7b065728cb, type: 3}
   - {fileID: 7367720651887891403, guid: d75d66dc183112f499b58c5d0d2bcc44, type: 3}
