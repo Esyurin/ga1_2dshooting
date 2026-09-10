@@ -78,8 +78,7 @@ public abstract class Enemy : MonoBehaviour
             _isReleased = true;
             DropItem();
 
-            ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
-            scoreManager.AddScore(_score);
+            ScoreManager.Instance.AddScore(_score);
 
             Release();
         }

@@ -4,7 +4,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : Singleton<ScoreManager>
 {
     [Header("References")]
     [SerializeField] private TextMeshProUGUI _bestScoreTextUI;
