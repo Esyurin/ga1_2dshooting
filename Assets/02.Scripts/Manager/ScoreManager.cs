@@ -14,7 +14,7 @@ public class ScoreManager : Singleton<ScoreManager>
     private int _currentScore;
     private int _lastRefreshScore = -1;
 
-    private void Update()
+    protected override void OnAwake()
     {
         Refresh();
     }
@@ -39,5 +39,7 @@ public class ScoreManager : Singleton<ScoreManager>
 
         _currentScore += score;
         _bestScore = Math.Max(_bestScore, _currentScore);
+
+        Refresh();
     }
 }
