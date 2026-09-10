@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ScoreManager : Singleton<ScoreManager>
 {
+    private const string BestScoreSaveKey = "BestScore";
+
     [Header("References")]
     [SerializeField] private TextMeshProUGUI _bestScoreTextUI;
     [SerializeField] private TextMeshProUGUI _currentScoreTextUI;
@@ -16,7 +18,13 @@ public class ScoreManager : Singleton<ScoreManager>
 
     protected override void OnAwake()
     {
+        LoadScore();
         Refresh();
+    }
+
+    private void LoadScore()
+    {
+        _bestScore = PlayerPrefs.GetInt(BestScoreSaveKey, 0);
     }
 
     private void Refresh()
@@ -38,7 +46,13 @@ public class ScoreManager : Singleton<ScoreManager>
         }
 
         _currentScore += score;
-        _bestScore = Math.Max(_bestScore, _currentScore);
+
+        if (_currentScore > _bestScore)
+        {
+            _bestScore = _currentScore;
+            PlayerPrefs.SetInt(BestScoreSaveKey, _bestScore);
+            PlayerPrefs.Save();
+        }
 
         Refresh();
     }
