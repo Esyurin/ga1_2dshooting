@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed188c511226479eabecd61834d6a57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AimedEnemy
-  _maxHealth: 10
+  _maxHealth: 15
   _speed: 2
   _attackPower: 10
   _spawnWeight: 3

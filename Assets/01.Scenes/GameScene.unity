@@ -613,7 +613,7 @@ Transform:
   m_GameObject: {fileID: 507493325}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.8, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1980,6 +1980,7 @@ GameObject:
   - component: {fileID: 1381402021}
   - component: {fileID: 1381402023}
   - component: {fileID: 1381402024}
+  - component: {fileID: 1381402025}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2214,7 +2215,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381402013}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 727a9c3a26952034aa972c8379360afe, type: 2}
   m_CullingMode: 0
@@ -2242,6 +2243,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBomb
   _bombPrefab: {fileID: 8199555358176344674, guid: c0d26ef8340858b4887f39289852dec6, type: 3}
   _coolTime: 10
+--- !u!114 &1381402025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381402013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222124cda809ddf49826fafc14840a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAutoMove
+  _ignoreDistanceThreshold: 1
+  _retreatTriggerDistance: 2
+  _ignoreAngleThreshold: 30
+  _moveSpeed: 3
+  _maxMoveY: -2
 --- !u!1 &1573690699
 GameObject:
   m_ObjectHideFlags: 0
