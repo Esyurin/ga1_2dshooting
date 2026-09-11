@@ -185,12 +185,8 @@ MonoBehaviour:
   _maxHealth: 15
   _speed: 2
   _attackPower: 10
-  _spawnWeight: 3
   _score: 20
-  _items:
-  - {fileID: 5479642142822049742, guid: ac9fe7eac844a304387b1e7b065728cb, type: 3}
-  - {fileID: 7367720651887891403, guid: d75d66dc183112f499b58c5d0d2bcc44, type: 3}
-  - {fileID: 8559790925622245820, guid: 8ab5decbb342abb42a3021d203cfaaff, type: 3}
+  _itemDataTable: {fileID: 11400000, guid: f7e2db08fbdf3c044b69677f0907fe37, type: 2}
   _deathEffectPrefab: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
 --- !u!95 &2241710394538001081
 Animator:

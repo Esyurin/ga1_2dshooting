@@ -14,7 +14,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private int _score;
 
     [Header("References")]
-    [SerializeField] private List<Item> _items = new();
+    [SerializeField] private ItemDataTableSO _itemDataTable;
     [SerializeField] private GameObject _deathEffectPrefab;
 
     private const float ForwardAngleOffset = 90f;
@@ -103,8 +103,8 @@ public abstract class Enemy : MonoBehaviour
     {
         if (Random.value > ItemDropProbability) return;
 
-        int randomItemIndex = Random.Range(0, _items.Count);
-        Item item = _items[randomItemIndex];
+        int randomItemIndex = Random.Range(0, _itemDataTable.Data.Count);
+        Item item = _itemDataTable.Data[randomItemIndex].Prefab;
         Instantiate(item, transform.position, transform.rotation);
     }
 }
