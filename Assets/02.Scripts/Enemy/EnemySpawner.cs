@@ -8,34 +8,45 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _maxSpawnInterval = 3f;
     [SerializeField] private float _minSpawnInterval = 1f;
 
-    [Header("스폰할 적 프리팹 및 비율")]
-    [SerializeField] private List<Enemy> _enemyPrefabs = new();
+    [Header("Enemy Data Table")]
+    [SerializeField] private EnemyDataTableSO _enemyDataTable;
 
     private float _timer;
     private float _spawnInterval = 3f;
 
-    private Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
+    private readonly List<Enemy> _enemies = new();
+    private readonly Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
 
     private float _totalSpawnWeight;
 
     private void Awake()
     {
-        foreach (Enemy enemy in _enemyPrefabs)
+        foreach (EnemyData data in _enemyDataTable.Datas)
         {
-            ObjectPool<Enemy> enemyPool = new ObjectPool<Enemy>(
-                () => SpawnEnemy(enemy),
+            GameObject enemyPrefab = data.Prefab;
+
+            if (!enemyPrefab.TryGetComponent(out Enemy enemy))
+            {
+                Debug.LogError($"Enemy 컴포넌트가 없습니다: {enemyPrefab.name}", enemyPrefab);
+                continue;
+            }
+
+            _enemies.Add(enemy);
+
+            ObjectPool<Enemy> enemyPool = new(() => SpawnEnemy(enemy),
                 OnGetEnemy,
                 OnReleaseEnemy,
                 OnDestroyEnemy,
                 true,
                 10,
                 20);
+
             _enemyPoolMap.Add(enemy, enemyPool);
         }
 
-        foreach (Enemy enemy in _enemyPrefabs)
+        foreach (EnemyData data in _enemyDataTable.Datas)
         {
-            _totalSpawnWeight += enemy.SpawnWeight;
+            _totalSpawnWeight += data.SpawnWeight;
         }
     }
 
@@ -43,12 +54,10 @@ public class EnemySpawner : MonoBehaviour
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= _spawnInterval)
-        {
-            _timer = 0f;
-            _spawnInterval = Random.Range(_minSpawnInterval, _maxSpawnInterval);
-            _enemyPoolMap[SelectRandomEnemy()].Get();
-        }
+        if (!(_timer >= _spawnInterval)) return;
+        _timer = 0f;
+        _spawnInterval = Random.Range(_minSpawnInterval, _maxSpawnInterval);
+        _enemyPoolMap[SelectRandomEnemy()].Get();
     }
 
     private Enemy SelectRandomEnemy()
@@ -56,20 +65,14 @@ public class EnemySpawner : MonoBehaviour
         float totalSpawnWeight = _totalSpawnWeight;
         float randomValue = Random.value * totalSpawnWeight;
 
-        foreach (Enemy enemy in _enemyPrefabs)
+        for (int i = 0; i < _enemies.Count; i++)
         {
-            randomValue -= enemy.SpawnWeight;
-
-            if (randomValue <= 0f)
-            {
-                return enemy;
-            }
+            randomValue -= _enemyDataTable.Datas[i].SpawnWeight;
+            if (randomValue <= 0f) return _enemies[i];
         }
 
-        return _enemyPrefabs[^1];
+        return _enemies[^1];
     }
-
-    // TODO: ScriptableObject를 사용해서 리팩토링
 
     private Enemy SpawnEnemy(Enemy enemyPrefab)
     {

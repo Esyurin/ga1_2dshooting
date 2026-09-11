@@ -11,7 +11,6 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _maxHealth = 3f;
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
-    [SerializeField] private float _spawnWeight;
     [SerializeField] private int _score;
 
     [Header("References")]
@@ -28,8 +27,6 @@ public abstract class Enemy : MonoBehaviour
 
     private IObjectPool<Enemy> _pool;
     private bool _isReleased;
-
-    public float SpawnWeight => _spawnWeight;
 
     private void Awake()
     {
