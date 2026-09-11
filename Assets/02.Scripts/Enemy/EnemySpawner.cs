@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -8,9 +9,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _maxSpawnInterval = 3f;
     [SerializeField] private float _minSpawnInterval = 1f;
 
-    [Header("Enemy Data Table")]
-    [SerializeField] private EnemyDataTableSO _enemyDataTable;
-
     private float _timer;
     private float _spawnInterval = 3f;
 
@@ -18,10 +16,15 @@ public class EnemySpawner : MonoBehaviour
     private readonly Dictionary<Enemy, ObjectPool<Enemy>> _enemyPoolMap = new();
 
     private float _totalSpawnWeight;
+    private bool _isInitialized;
 
-    private void Awake()
+    private IEnumerator Start()
     {
-        foreach (EnemyData data in _enemyDataTable.Datas)
+        yield return new WaitUntil(() => GameDataLoader.Instance.IsLoaded);
+        GameDataLoader loader = GameDataLoader.Instance;
+        EnemyData[] datas = loader.EnemyDatas;
+
+        foreach (EnemyData data in datas)
         {
             GameObject enemyPrefab = data.Prefab;
 
@@ -44,14 +47,18 @@ public class EnemySpawner : MonoBehaviour
             _enemyPoolMap.Add(enemy, enemyPool);
         }
 
-        foreach (EnemyData data in _enemyDataTable.Datas)
+        foreach (EnemyData data in datas)
         {
             _totalSpawnWeight += data.SpawnWeight;
         }
+
+        _isInitialized = true;
     }
 
     private void Update()
     {
+        if (!_isInitialized) return;
+
         _timer += Time.deltaTime;
 
         if (!(_timer >= _spawnInterval)) return;
@@ -62,12 +69,14 @@ public class EnemySpawner : MonoBehaviour
 
     private Enemy SelectRandomEnemy()
     {
+        GameDataLoader loader = GameDataLoader.Instance;
+        EnemyData[] datas = loader.EnemyDatas;
         float totalSpawnWeight = _totalSpawnWeight;
         float randomValue = Random.value * totalSpawnWeight;
 
         for (int i = 0; i < _enemies.Count; i++)
         {
-            randomValue -= _enemyDataTable.Datas[i].SpawnWeight;
+            randomValue -= datas[i].SpawnWeight;
             if (randomValue <= 0f) return _enemies[i];
         }
 
