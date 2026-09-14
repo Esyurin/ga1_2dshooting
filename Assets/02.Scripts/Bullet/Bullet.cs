@@ -3,16 +3,19 @@ using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _attackDamage = 1f;
+    [SerializeField] private float _defaultAttackDamage = 1f;
     [SerializeField] private float _moveSpeed = 5f;
 
     private AudioSource _audioSource;
+
+    private float _damage;
 
     private IObjectPool<Bullet> _pool;
     private bool _isReleased;
 
     private void Awake()
     {
+        _damage = _defaultAttackDamage;
         _audioSource = GetComponent<AudioSource>();
         _audioSource.pitch = Random.Range(0.9f, 1.1f);
         _audioSource.Play();
@@ -38,7 +41,7 @@ public class Bullet : MonoBehaviour
                 return;
             }
 
-            enemy.TakeDamage(_attackDamage);
+            enemy.TakeDamage(_damage);
             Release();
         }
     }
@@ -63,6 +66,6 @@ public class Bullet : MonoBehaviour
 
     public void IncreaseAttackDamage(float amount)
     {
-        _attackDamage += amount;
+        _damage += amount;
     }
 }

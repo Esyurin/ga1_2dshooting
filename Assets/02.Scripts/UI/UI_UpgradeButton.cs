@@ -47,7 +47,7 @@ public class UI_UpgradeButton : MonoBehaviour
     private void Refresh(Upgrade upgrade)
     {
         _titleText.text = $"{upgrade.Name} Lv.{upgrade.Level}";
-        _valueText.text = $"+{upgrade.UpgradeAmount} → +{upgrade.NextUpgradeAmount}";
+        _valueText.text = $"+{upgrade.UpgradeAmount:F} → +{upgrade.NextUpgradeAmount:F}";
         _costText.text = $"코스트: {upgrade.Cost}";
     }
 }
