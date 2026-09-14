@@ -56,7 +56,8 @@ namespace Kino
         {
             serializedObject.Update();
 
-            if (!serializedObject.isEditingMultipleObjects) {
+            if (!serializedObject.isEditingMultipleObjects)
+            {
                 EditorGUILayout.Space();
                 _graph.Prepare((Bloom)target);
                 _graph.DrawGraph();
