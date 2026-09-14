@@ -24,6 +24,8 @@ public class PlayerFire : MonoBehaviour
     private float _timer = 0f;
     private bool _isAuto = true;
 
+    public bool IsAuto => _isAuto;
+
     private void Awake()
     {
         _bulletPrefabs = new[] { _bulletPrefab, _subBulletPrefab };
@@ -38,6 +40,7 @@ public class PlayerFire : MonoBehaviour
                 true,
                 10,
                 100);
+
             _bulletPoolMap.Add(bullet, enemyPool);
         }
     }
@@ -100,7 +103,7 @@ public class PlayerFire : MonoBehaviour
         rightSubBullet.transform.parent = _bulletCollection;
     }
 
-    private void ToggleAuto()
+    public void ToggleAuto()
     {
         _isAuto = !_isAuto;
     }
