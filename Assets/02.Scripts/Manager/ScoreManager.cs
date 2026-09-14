@@ -33,8 +33,8 @@ public class ScoreManager : Singleton<ScoreManager>
 
         _lastRefreshScore = _currentScore;
 
-        _bestScoreTextUI.text = $"Best Score: {_bestScore}";
-        _currentScoreTextUI.text = $"Current Score: {_currentScore}";
+        _bestScoreTextUI.text = $"Best Score: {_bestScore:N0}";
+        _currentScoreTextUI.text = $"Current Score: {_currentScore:N0}";
     }
 
     public void AddScore(int score)
