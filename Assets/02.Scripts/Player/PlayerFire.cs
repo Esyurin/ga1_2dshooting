@@ -112,4 +112,10 @@ public class PlayerFire : MonoBehaviour
     {
         _coolTime = Mathf.Max(_coolTime - value, 0.1f);
     }
+
+    public void IncreaseAttackDamage(float value)
+    {
+        _bulletPrefab.IncreaseAttackDamage(value);
+        _subBulletPrefab.IncreaseAttackDamage(value);
+    }
 }

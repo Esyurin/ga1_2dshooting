@@ -16,6 +16,8 @@ public class ScoreManager : Singleton<ScoreManager>
     private int _currentScore;
     private int _lastRefreshScore = -1;
 
+    public int CurrentScore => _currentScore;
+
     protected override void OnAwake()
     {
         LoadScore();
@@ -55,5 +57,10 @@ public class ScoreManager : Singleton<ScoreManager>
         }
 
         Refresh();
+    }
+
+    public void SpendScore(int amount)
+    {
+        _currentScore -= amount;
     }
 }

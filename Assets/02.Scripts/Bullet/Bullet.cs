@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _attackPower = 1f;
+    [SerializeField] private float _attackDamage = 1f;
     [SerializeField] private float _moveSpeed = 5f;
 
     private AudioSource _audioSource;
@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
                 return;
             }
 
-            enemy.TakeDamage(_attackPower);
+            enemy.TakeDamage(_attackDamage);
             Release();
         }
     }
@@ -59,5 +59,10 @@ public class Bullet : MonoBehaviour
 
         _pool.Release(this);
         _isReleased = true;
+    }
+
+    public void IncreaseAttackDamage(float amount)
+    {
+        _attackDamage += amount;
     }
 }
