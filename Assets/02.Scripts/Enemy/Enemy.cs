@@ -5,10 +5,13 @@ using Random = UnityEngine.Random;
 
 public abstract class Enemy : MonoBehaviour
 {
+    private const float ForwardAngleOffset = 90f;
+    private const float ItemDropProbability = 0.3f;
+
     private static readonly int IsHit = Animator.StringToHash("isHit");
 
     [Header("Stats")]
-    [SerializeField] private float _maxHealth = 3f;
+    [SerializeField] private float _baseHealth = 10f;
     [SerializeField] protected float _speed = 1f;
     [SerializeField] private float _attackPower = 10f;
     [SerializeField] private int _score;
@@ -17,12 +20,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private ItemDataTableSO _itemDataTable;
     [SerializeField] private GameObject _deathEffectPrefab;
 
-    private const float ForwardAngleOffset = 90f;
-    private const float ItemDropProbability = 0.3f;
-
     private Animator _animator;
     private AudioSource _damagedAudioSource;
 
+    private float _maxHealth;
     private float _health;
 
     private IObjectPool<Enemy> _pool;
@@ -106,5 +107,11 @@ public abstract class Enemy : MonoBehaviour
         int randomItemIndex = Random.Range(0, _itemDataTable.Data.Count);
         Item item = _itemDataTable.Data[randomItemIndex].Prefab;
         Instantiate(item, transform.position, transform.rotation);
+    }
+
+    public void SetHealthBalance(float multiplier)
+    {
+        _maxHealth = _baseHealth * multiplier;
+        _health = _maxHealth;
     }
 }

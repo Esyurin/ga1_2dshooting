@@ -5,7 +5,10 @@ using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("스폰 주기")]
+    [Header("References")]
+    [SerializeField] private EnemyBalanceDataTableSO _enemyBalanceDataTable;
+
+    [Header("Spawn Interval")]
     [SerializeField] private float _maxSpawnInterval = 3f;
     [SerializeField] private float _minSpawnInterval = 1f;
 
@@ -17,6 +20,11 @@ public class EnemySpawner : MonoBehaviour
 
     private float _totalSpawnWeight;
     private bool _isInitialized;
+
+    private void Awake()
+    {
+        Debug.Assert(_enemyBalanceDataTable != null);
+    }
 
     private IEnumerator Start()
     {
@@ -94,6 +102,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnGetEnemy(Enemy enemy)
     {
         enemy.transform.position = transform.position;
+        enemy.SetHealthBalance(GetHealthMultiplier());
         enemy.gameObject.SetActive(true);
         enemy.OnSpawn();
     }
@@ -106,5 +115,23 @@ public class EnemySpawner : MonoBehaviour
     private void OnDestroyEnemy(Enemy enemy)
     {
         Destroy(enemy.gameObject);
+    }
+
+    private float GetHealthMultiplier()
+    {
+        ScoreManager scoreManager = ScoreManager.Instance;
+        float multiplier = 0;
+        foreach (EnemyBalanceData data in _enemyBalanceDataTable.Datas)
+        {
+            if (scoreManager.BestScore >= data.BestScore)
+            {
+                multiplier = data.EnemyHealthMultiplier;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return multiplier;
     }
 }

@@ -16,6 +16,7 @@ public class ScoreManager : Singleton<ScoreManager>
     private int _currentScore;
     private int _lastRefreshScore = -1;
 
+    public int BestScore => _bestScore;
     public int CurrentScore => _currentScore;
 
     protected override void OnAwake()
