@@ -19,6 +19,13 @@ public class Upgrade
     public int Cost => _cost;
     public int Level => _level;
 
+    public void Initialize(int level)
+    {
+        _level = level;
+        _upgradeAmount += _level * _upgradeAmountIncrease;
+        _cost += _level * _costIncrease;
+    }
+
     public void IncreaseLevel()
     {
         _level++;

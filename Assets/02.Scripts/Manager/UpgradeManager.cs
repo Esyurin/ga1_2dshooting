@@ -23,6 +23,11 @@ public class UpgradeManager : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
     }
 
+    private void Start()
+    {
+        Load();
+    }
+
     public void Upgrade(UpgradeType type)
     {
         ScoreManager scoreManager = ScoreManager.Instance;
@@ -48,5 +53,25 @@ public class UpgradeManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
         upgrade.IncreaseLevel();
+        Save();
+    }
+
+    private void Save()
+    {
+        // 유의미한 정보(레벨)만 저장
+        for (int i = 0; i < _upgrades.Length; i++)
+        {
+            PlayerPrefs.SetInt($"{_upgrades[i].Name} Upgrade Level", _upgrades[i].Level);
+        }
+        PlayerPrefs.Save();
+    }
+
+    private void Load()
+    {
+        for (int i = 0; i < _upgrades.Length; i++)
+        {
+            int level = PlayerPrefs.GetInt($"{_upgrades[i].Name} Upgrade Level", 1);
+            _upgrades[i].Initialize(level);
+        }
     }
 }

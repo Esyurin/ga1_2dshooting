@@ -7,6 +7,7 @@ public class UI_AutoButton : MonoBehaviour
     [Header("UI Sprites")]
     [SerializeField] private Sprite _onSprite;
     [SerializeField] private Sprite _offSprite;
+    [SerializeField] private AnimationCurve _curve;
 
     private Image _image;
     private AudioSource _audioSource;
