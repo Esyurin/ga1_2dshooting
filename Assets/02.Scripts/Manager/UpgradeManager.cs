@@ -10,10 +10,12 @@ public enum UpgradeType
 
 public class UpgradeManager : MonoBehaviour
 {
+    private const string UpgradeSaveDataKey = "UpgradeSaveData";
+
     [SerializeField] private Upgrade[] _upgrades;
 
-    PlayerFire _playerFire;
-    PlayerMove _playerMove;
+    private PlayerFire _playerFire;
+    private PlayerMove _playerMove;
 
     public Upgrade[] Upgrades => _upgrades;
 
@@ -58,20 +60,31 @@ public class UpgradeManager : MonoBehaviour
 
     private void Save()
     {
-        // 유의미한 정보(레벨)만 저장
+        UpgradeSaveData saveData = new(_upgrades.Length);
         for (int i = 0; i < _upgrades.Length; i++)
         {
-            PlayerPrefs.SetInt($"{_upgrades[i].Name} Upgrade Level", _upgrades[i].Level);
+            saveData.Name[i] = _upgrades[i].Name;
+            saveData.Level[i] = _upgrades[i].Level;
         }
+
+        string json = JsonUtility.ToJson(saveData);
+        PlayerPrefs.SetString(UpgradeSaveDataKey, json);
         PlayerPrefs.Save();
     }
 
     private void Load()
     {
+        string json = PlayerPrefs.GetString(UpgradeSaveDataKey, null);
+        if (string.IsNullOrEmpty(json))
+        {
+            Debug.Log("Upgrade save data not found");
+            return;
+        }
+
+        UpgradeSaveData saveData = JsonUtility.FromJson<UpgradeSaveData>(json);
         for (int i = 0; i < _upgrades.Length; i++)
         {
-            int level = PlayerPrefs.GetInt($"{_upgrades[i].Name} Upgrade Level", 1);
-            _upgrades[i].Initialize(level);
+            _upgrades[i].Initialize(saveData.Level[i]);
         }
     }
 }

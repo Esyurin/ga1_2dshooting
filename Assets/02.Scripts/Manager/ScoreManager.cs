@@ -62,5 +62,6 @@ public class ScoreManager : Singleton<ScoreManager>
     public void SpendScore(int amount)
     {
         _currentScore -= amount;
+        Refresh();
     }
 }
