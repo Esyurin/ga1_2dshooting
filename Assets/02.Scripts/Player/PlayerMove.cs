@@ -26,7 +26,6 @@ public class PlayerMove : MonoBehaviour
     private const float RecordTimeThreshold = 0.1f;
     private Vector3 _recordStartPosition;
 
-
     private void Awake()
     {
         Bounds bounds = _moveZone.bounds;
@@ -43,8 +42,8 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = SimpleInput.GetAxis("Horizontal");
+        float verticalInput = SimpleInput.GetAxis("Vertical");
         Move(horizontalInput, verticalInput);
         UpdateAnimation(horizontalInput);
     }
