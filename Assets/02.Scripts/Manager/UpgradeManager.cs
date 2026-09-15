@@ -23,10 +23,6 @@ public class UpgradeManager : MonoBehaviour
     {
         _playerFire = GetComponent<PlayerFire>();
         _playerMove = GetComponent<PlayerMove>();
-    }
-
-    private void Start()
-    {
         Load();
     }
 
@@ -34,28 +30,30 @@ public class UpgradeManager : MonoBehaviour
     {
         ScoreManager scoreManager = ScoreManager.Instance;
         Upgrade upgrade = _upgrades[(int)type];
+        if (scoreManager.CurrentScore < upgrade.Cost) return;
+
+        ApplyEffect(upgrade.Type, upgrade.UpgradeAmount);
+        scoreManager.SpendScore(upgrade.Cost);
+        upgrade.IncreaseLevel();
+        Save();
+    }
+
+    private void ApplyEffect(UpgradeType type, float amount)
+    {
         switch (type)
         {
             case UpgradeType.AttackPower:
-                if (scoreManager.CurrentScore < upgrade.Cost) return;
-                scoreManager.SpendScore(upgrade.Cost);
-                _playerFire.IncreaseAttackDamage(upgrade.UpgradeAmount);
+                _playerFire.IncreaseAttackDamage(amount);
                 break;
             case UpgradeType.AttackSpeed:
-                if (scoreManager.CurrentScore < upgrade.Cost) return;
-                scoreManager.SpendScore(upgrade.Cost);
-                _playerFire.AttackSpeedUp(upgrade.UpgradeAmount);
+                _playerFire.AttackSpeedUp(amount);
                 break;
             case UpgradeType.MoveSpeed:
-                if (scoreManager.CurrentScore < upgrade.Cost) return;
-                scoreManager.SpendScore(upgrade.Cost);
-                _playerMove.MoveSpeedUp(upgrade.UpgradeAmount);
+                _playerMove.MoveSpeedUp(amount);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
-        upgrade.IncreaseLevel();
-        Save();
     }
 
     private void Save()
@@ -82,9 +80,15 @@ public class UpgradeManager : MonoBehaviour
         }
 
         UpgradeSaveData saveData = JsonUtility.FromJson<UpgradeSaveData>(json);
-        for (int i = 0; i < _upgrades.Length; i++)
+        if (saveData?.Level == null) return;
+
+        for (int i = 0; i < Mathf.Min(_upgrades.Length, saveData.Level.Length); i++)
         {
             _upgrades[i].Initialize(saveData.Level[i]);
+            if (_upgrades[i].Level > 1)
+            {
+                ApplyEffect(_upgrades[i].Type, _upgrades[i].TotalUpgradeAmount);
+            }
         }
     }
 }

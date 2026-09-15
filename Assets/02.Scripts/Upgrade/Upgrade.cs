@@ -14,22 +14,21 @@ public class Upgrade
 
     public UpgradeType Type => _type;
     public string Name => _name;
-    public float UpgradeAmount => _upgradeAmount;
-    public float NextUpgradeAmount => _upgradeAmount + _upgradeAmountIncrease;
-    public int Cost => _cost;
+    public float UpgradeAmount => _upgradeAmount + (_level - 1) * _upgradeAmountIncrease;
+    public float NextUpgradeAmount => UpgradeAmount + _upgradeAmountIncrease;
+    public int Cost => _cost + (_level - 1) * _costIncrease;
     public int Level => _level;
+
+    public float TotalUpgradeAmount =>
+        (_level - 1) * (_upgradeAmount + (_level - 2) * _upgradeAmountIncrease * 0.5f);
 
     public void Initialize(int level)
     {
-        _level = level;
-        _upgradeAmount += _level * _upgradeAmountIncrease;
-        _cost += _level * _costIncrease;
+        _level = Mathf.Max(1, level);
     }
 
     public void IncreaseLevel()
     {
         _level++;
-        _upgradeAmount += _upgradeAmountIncrease;
-        _cost += _costIncrease;
     }
 }

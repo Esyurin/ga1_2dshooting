@@ -112,7 +112,7 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveSpeedUp(float value)
     {
-        _speed = Mathf.Clamp(_speed + value * Time.deltaTime, _speedMin, _speedMax);
+        _speed = Mathf.Clamp(_speed + value, _speedMin, _speedMax);
     }
 
     public void MoveSpeedDown(float value)

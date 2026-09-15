@@ -22,6 +22,7 @@ public class PlayerFire : MonoBehaviour
     private Dictionary<Bullet, ObjectPool<Bullet>> _bulletPoolMap = new();
 
     private float _timer = 0f;
+    private float _attackDamageBonus;
     private bool _isAuto = true;
 
     public bool IsAuto => _isAuto;
@@ -55,7 +56,7 @@ public class PlayerFire : MonoBehaviour
     private void OnGetBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(true);
-        bullet.OnSpawn();
+        bullet.OnSpawn(_attackDamageBonus);
     }
 
     private void OnReleaseBullet(Bullet bullet)
@@ -110,12 +111,11 @@ public class PlayerFire : MonoBehaviour
 
     public void AttackSpeedUp(float value)
     {
-        _coolTime = Mathf.Max(_coolTime - value, 0.1f);
+        _coolTime = Mathf.Max(_coolTime - value, MinCoolTime);
     }
 
     public void IncreaseAttackDamage(float value)
     {
-        _bulletPrefab.IncreaseAttackDamage(value);
-        _subBulletPrefab.IncreaseAttackDamage(value);
+        _attackDamageBonus += value;
     }
 }

@@ -1,4 +1,5 @@
-﻿public class UpgradeSaveData
+﻿[System.Serializable]
+public class UpgradeSaveData
 {
     public string[] Name;
     public int[] Level;

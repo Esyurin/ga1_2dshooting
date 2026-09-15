@@ -51,8 +51,9 @@ public class Bullet : MonoBehaviour
         _pool = pool;
     }
 
-    public void OnSpawn()
+    public void OnSpawn(float attackDamageBonus = 0f)
     {
+        _damage = _defaultAttackDamage + attackDamageBonus;
         _isReleased = false;
     }
 
