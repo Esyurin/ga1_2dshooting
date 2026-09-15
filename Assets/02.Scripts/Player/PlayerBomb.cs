@@ -22,7 +22,7 @@ public class PlayerBomb : MonoBehaviour
     {
         CheckCoolTime();
 
-        if (_bombReady && SimpleInput.GetButtonDown("Bombg"))
+        if (_bombReady && SimpleInput.GetButtonDown("Bomb"))
         {
             DropBomb();
         }
